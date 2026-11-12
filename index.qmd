@@ -1,0 +1,91 @@
+---
+title: "A Five Sentence Term Paper Using Chi2 Analysis"
+date: today
+execute:
+  echo: true
+author:
+  - name: Michelle
+    affiliation:
+      - name: University of Wisconsin Madison
+abstract: >
+  In our research we study, with a poetic balance of levity and clarity, the process of conducting a chi2 analysis using Python, Quarto, the command line environment in a concerted manner such that our work will be fully reproducible.
+keywords:
+  - chi2
+  - reproducible
+  - Quarto
+  - Python
+  - DSHB
+bibliography: references.bib
+engine: jupyter
+---
+
+# Introduction
+
+Many scientists for decades have pondered if it might be possible to create an app that would snap a photo of a book and then tell the app's user information about that book including, for example, its genre which is the question we present and study in this paper.
+
+# Literature Review
+
+Others have previously studied how machine learning algorithims may predict information about a book including a book's genre [@vayadande2024book].
+
+# Method
+
+```{python}
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from scipy.stats import chi2_contingency
+
+domain = 'https://raw.githubusercontent.com/'
+path = "adamrossnelson/confident/refs/heads/main/data/"
+file = "confident_fictional_books.csv"
+
+books = pd.read_csv(domain + path + file)
+```
+
+Our null hypothesis is that 
+book cover color does not predict 
+the book's genre while the alternate hypothesis is that book 
+cover 
+color does predict the book's genre and we study this 
+question with data from `{python} f"{books.shape[0]}"` books
+where we know 
+the book's genre and the book's cover color such
+that we can conduct a chi2 test to see if these two varaibles
+are either independent or dependent (as it turns out our chi2
+test will involve a 
+`{python} f"{books['book_genre'].nunique()}"` x 
+`{python} f"{books['book_color'].nunique()}"` test).
+
+# Results
+
+```{python}
+# Conduct the chi2 with chi2_contingency by passing the observed
+x2, pval, degf, _ = chi2_contingency(
+    pd.crosstab(
+        books['book_genre'],
+        books['book_color']))
+```
+
+Results: Chi2 Stat: `{python} f"{x2:.5f}"` - Pvalue: `{python} f"{pval:.5f}"` -
+Degrees of Freedon: `{python} f"{degf}"`.
+
+
+With a Chi2 statistic result of `{python} f"{x2:.5f}"` and
+a p-value nearly equal to `{python} f"{pval:.5f}"` (degrees
+of freedom `{python} f"{degf}"`) we fail to reject our null
+hypothesis and conclude that given these data, and given
+this analytical approach, there is no evidence to believe
+that a book's cover color may predict that book's genre.
+
+# Discussion
+
+It is a sad day for UW-Madison book club members, the DSHB
+students thought they could deliver a BIG WIN for book club
+members and book afficionados world-wide; the search for
+a reproducible method that will predict book genre carries on!
+
+# References
+
+::: {#refs}
+:::
+
